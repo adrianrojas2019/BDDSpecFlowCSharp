@@ -1,3 +1,6 @@
+using AventStack.ExtentReports;
+using AventStack.ExtentReports.Gherkin.Model;
+using AventStack.ExtentReports.Reporter;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -13,6 +16,19 @@ namespace SpecFlowProject1.StepDefinitions
         [Given(@"User Navigates to the Facebook Home Page")]
         public void GivenUserNavigatesToTheFacebookHomePage()
         {
+            /*var htmlReporter = new ExtentHtmlReporter("C:\\Users\\Adrian Rojas\\Desktop\\Adrian\\Projects\\C#\\BDD\\SpecFlowProject1\\Reports\\index.html");
+            htmlReporter.Config.Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
+
+            ExtentReports extent = new ExtentReports();
+            extent.AttachReporter(htmlReporter);
+
+            ExtentTest featureName = extent.CreateTest<Feature>("Facebook Home Page Login");
+            ExtentTest testscenario = featureName.CreateNode<Scenario>("To check the login functionality for the Facebook Home Page with invalid Credentials");
+
+            testscenario.CreateNode<Given>("User Navigates to the Facebook Home Page");
+            extent.Flush();*/
+
+
             //Console.WriteLine("Given Sample");
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
