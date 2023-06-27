@@ -80,14 +80,24 @@ namespace SpecFlowProjectUsingBDD.Features
         [NUnit.Framework.CategoryAttribute("Regression")]
         [NUnit.Framework.CategoryAttribute("Application1")]
         [NUnit.Framework.CategoryAttribute("Application2")]
-        public virtual void ToCheckTheLoginFunctionalityForTheFacebookHomePageWithInvalidCredentials()
+        [NUnit.Framework.TestCaseAttribute("Test$#123", "1234", null)]
+        [NUnit.Framework.TestCaseAttribute("Test$#122", "1235", null)]
+        [NUnit.Framework.TestCaseAttribute("Test$#125", "1236", null)]
+        public virtual void ToCheckTheLoginFunctionalityForTheFacebookHomePageWithInvalidCredentials(string username, string password, string[] exampleTags)
         {
-            string[] tagsOfScenario = new string[] {
+            string[] @__tags = new string[] {
                     "Smoke",
                     "Regression",
                     "Application1",
                     "Application2"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("username", username);
+            argumentsOfScenario.Add("password", password);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("To check the login functionality for the Facebook Home Page with invalid Credenti" +
                     "als", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 5
@@ -114,7 +124,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("User Navigates to the Facebook Home Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 7
- testRunner.When("User enters Test$#12343 as UserName and Pass1234 as Password", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When(string.Format("User enters {0} as UserName and {1} as Password", username, password), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 8
  testRunner.And("Click on the Login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

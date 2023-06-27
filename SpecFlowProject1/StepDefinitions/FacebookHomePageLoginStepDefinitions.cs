@@ -9,7 +9,7 @@ namespace SpecFlowProject1.StepDefinitions
     [Binding]
     public class FacebookHomePageLoginStepDefinitions
     {
-        IWebDriver driver;
+        IWebDriver? driver;
         [Given(@"User Navigates to the Facebook Home Page")]
         public void GivenUserNavigatesToTheFacebookHomePage()
         {
@@ -19,12 +19,12 @@ namespace SpecFlowProject1.StepDefinitions
             driver.Navigate().GoToUrl("http://www.facebook.com");
         }
 
-        [When(@"User enters Test\$\#(.*) as UserName and Pass(.*) as Password")]
-        public void WhenUserEntersTestAsUserNameAndPasdAsPassword(int p0, int p1)
+        [When(@"User enters (.*) as UserName and (.*) as Password")]
+        public void WhenUserEntersTestAsUserNameAndPasdAsPassword(string p0, string p1)
         {
             //Console.WriteLine("When Sample");
-            driver.FindElement(By.Name("email")).SendKeys("Test$#12343");
-            driver.FindElement(By.Name("pass")).SendKeys("Pass1234");
+            driver.FindElement(By.Name("email")).SendKeys(p0);
+            driver.FindElement(By.Name("pass")).SendKeys(p1);
         }
 
         [When(@"Click on the Login button")]
