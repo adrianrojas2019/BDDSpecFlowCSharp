@@ -6,58 +6,54 @@ using System;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.BindingSkeletons;
 
-namespace SpecFlowProjectUsingBDD
+namespace SpecFlowProjectUsingBDD.StepDefinitions
 {
     [Binding]
-    public class SearchInGoogleHomePage : SeleniumTestBase
+    public class SearchInGoogleHomePage
     {
-        //IWebDriver? driver;
-        GooglePage? googlePage;
-        [OneTimeSetUp]
-        public void SetupOnce()
-        {
-            googlePage = new GooglePage(driver);
-        }
-
+        IWebDriver? driver;
         [Given(@"Google Page Open")]
         public void GivenGooglePageOpen()
         {
-            //googlePage = new GooglePage(driver);
-            googlePage.GoToPage();
+            driver = new ChromeDriver();
+            driver.Manage().Window.Maximize();
+            driver.Navigate().GoToUrl("http://www.google.com");
         }
 
         [Given(@"Search Text Box should be present and Enabled in the Google Home Page")]
         public void GivenSearchTextBoxShouldBePresentAndEnabledInTheGoogleHomePage()
         {
-            //Console.WriteLine(driver.Title);
-            //Assert.That(driver.FindElement(By.Name("q")).Displayed, Is.True);
-            //Assert.That(driver.FindElement(By.Name("q")).Enabled, Is.True);
-            Assert.That(googlePage.isSearchBoxDisplayed(), Is.True);
-            Assert.That(googlePage.isSearchBoxEnabled(), Is.True);
+            Console.WriteLine(driver.Title);
+            Assert.That(driver.FindElement(By.Name("q")).Displayed, Is.True);
+            Assert.That(driver.FindElement(By.Name("q")).Enabled, Is.True);
         }
 
         [When(@"User searches a Course with a keyword (.*) Tutorial")]
         public void WhenUserSearchesACourseWithAKeywordJavaTutorial(string keyWord)
         {
-            googlePage.SearchFor(keyWord);
+            // create into new page object
+            //public IWebElement SearchBox => driver.FindElement(By.Name("q"));
+            var searchBox = driver.FindElement(By.Name("q"));
+            searchBox.SendKeys(keyWord);
+            Thread.Sleep(100);
+            searchBox.SendKeys(Keys.Escape);
+            Thread.Sleep(100);
         }
 
         [When(@"Hit enters button")]
         public void WhenHitEntersButton()
         {
-            //var searchBox = driver.FindElement(By.Name("q"));
-            ////searchBox.Click();
-            ////another workaround
-            //searchBox.SendKeys(Keys.Enter);
-            googlePage.EnterLoginButton();
+            var searchBox = driver.FindElement(By.Name("q"));
+            //searchBox.Click();
+            //another workaround
+            searchBox.SendKeys(Keys.Enter);
         }
 
         [Then(@"All Courses related to (.*) Tutorial should be displayed")]
         public void ThenAllCoursesRelatedToJavaTutorialShouldBeDisplayed(string keyWord)
         {
             //Validate keyword has been displayed
-            //Assert.IsTrue(driver.Url.Contains(keyWord));
-            googlePage.IsOnResultsPage(keyWord);
+            Assert.IsTrue(driver.Url.Contains(keyWord));
             driver.Quit();
         }
     }
