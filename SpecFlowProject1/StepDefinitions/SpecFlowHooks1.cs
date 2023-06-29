@@ -1,110 +1,127 @@
-﻿//using AventStack.ExtentReports;
-//using AventStack.ExtentReports.Gherkin.Model;
-//using AventStack.ExtentReports.Reporter;
-//using TechTalk.SpecFlow;
+﻿using AventStack.ExtentReports;
+using AventStack.ExtentReports.Gherkin.Model;
+using AventStack.ExtentReports.Reporter;
+using BoDi;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium;
+using TechTalk.SpecFlow;
 
-//namespace SpecFlowProjectUsingBDD.StepDefinitions
-//{
-//    [Binding]
-//    public sealed class SpecFlowHooks1
-//    {
-//        private static ExtentReports? extent;
-//        private static ExtentTest? featureName;
-//        private static ExtentTest? scenarioName;
+namespace SpecFlowProjectUsingBDD.StepDefinitions
+{
+    [Binding]
+    public sealed class SpecFlowHooks1
+    {
+        private static ExtentReports? extent;
+        private static ExtentTest? featureName;
+        private static ExtentTest? scenarioName;
 
-//        [BeforeTestRun]
-//        public static void BeforeTestRun()
-//        {
 
-//            var htmlReporter = new ExtentHtmlReporter("C:\\Users\\Adrian Rojas\\Desktop\\Adrian\\Projects\\C#\\BDD\\SpecFlowProject1\\Reports\\index.html");
-//            htmlReporter.Config.Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
+        private readonly IObjectContainer objectContainer;
+        private ChromeDriver webdriver;
 
-//            extent = new ExtentReports();
-//            extent.AttachReporter(htmlReporter);
+        public SpecFlowHooks1(IObjectContainer objectContainer)
+        {
+            this.objectContainer = objectContainer;
+        }
 
-//            Console.WriteLine("In Method Before Test Run");
-//        }
+        [BeforeTestRun]
+        public static void BeforeTestRun()
+        {
 
-//        [AfterTestRun]
-//        public static void AfterTestRun()
-//        {
-//            extent.Flush();
-//            Console.WriteLine("In Method After Test Run");
-//        }
+            var htmlReporter = new ExtentHtmlReporter("C:\\Users\\Adrian Rojas\\Desktop\\Adrian\\Projects\\C#\\BDD\\SpecFlowProject1\\Reports\\index.html");
+            htmlReporter.Config.Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
 
-//        [BeforeFeature]
-//        public static void BeforeFeature()
-//        {
-//            featureName = extent.CreateTest<Feature>(FeatureContext.Current.FeatureInfo.Title);
-//            Console.WriteLine("In Method Before Feature");
-//        }
+            extent = new ExtentReports();
+            extent.AttachReporter(htmlReporter);
 
-//        [AfterFeature]
-//        public static void AfterFeature()
-//        {
-//            Console.WriteLine("In Method After Feature");
-//        }
+            Console.WriteLine("In Method Before Test Run");
+        }
 
-//        [BeforeScenario]
-//        public static void BeforeScenario()
-//        {
-//            scenarioName = featureName.CreateNode<Scenario>(ScenarioContext.Current.ScenarioInfo.Title);
-//            Console.WriteLine("In Method Before Scenario");
-//        }
+        [AfterTestRun]
+        public static void AfterTestRun()
+        {
+            extent.Flush();
+            Console.WriteLine("In Method After Test Run");
+        }
 
-//        [AfterScenario]
-//        public static void AfterScenario()
-//        {
-//            Console.WriteLine("In Method After Scenario");
-//        }
+        [BeforeFeature]
+        public static void BeforeFeature()
+        {
+            featureName = extent.CreateTest<Feature>(FeatureContext.Current.FeatureInfo.Title);
+            Console.WriteLine("In Method Before Feature");
+        }
 
-//        [BeforeStep]
-//        public static void BeforeStep()
-//        {
-//            Console.WriteLine("In Method Before Step");
-//        }
+        [AfterFeature]
+        public static void AfterFeature()
+        {
+            Console.WriteLine("In Method After Feature");
+        }
 
-//        [AfterStep]
-//        public static void AfterStep()
-//        {
-//            var stepType = ScenarioStepContext.Current.StepInfo.StepDefinitionType.ToString();
+        [BeforeScenario]
+        public void InitializeWebDriver()
+        {
+            this.webdriver = new ChromeDriver();
+            objectContainer.RegisterInstanceAs<IWebDriver>(webdriver);
+        }
+        public static void BeforeScenario()
+        {
+            scenarioName = featureName.CreateNode<Scenario>(ScenarioContext.Current.ScenarioInfo.Title);
+            Console.WriteLine("In Method Before Scenario");
+        }
 
-//            if (ScenarioContext.Current.TestError == null)
-//            {
-//                if (stepType == "Given")
-//                    scenarioName.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text);
-//                else if (stepType == "When")
-//                    scenarioName.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text);
-//                else if (stepType == "Then")
-//                    scenarioName.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text);
-//                else if (stepType == "And")
-//                    scenarioName.CreateNode<And>(ScenarioStepContext.Current.StepInfo.Text);
-//            }
-//            else if(ScenarioContext.Current.TestError != null) 
-//            {
-//                if (stepType == "Given")
-//                    scenarioName.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
-//                if (stepType == "When")
-//                    scenarioName.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
-//                if (stepType == "Then")
-//                    scenarioName.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
-//                if (stepType == "And")
-//                    scenarioName.CreateNode<And>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
+        [AfterScenario]
+        public static void AfterScenario()
+        {
+            Console.WriteLine("In Method After Scenario");
+        }
 
-//            }
-//            Console.WriteLine("In Method After Step");
-//        }
+        [BeforeStep]
+        public static void BeforeStep()
+        {
+            Console.WriteLine("In Method Before Step");
+        }
 
-//        [BeforeScenarioBlock]
-//        public static void BeforeScenarioBlock()
-//        {
-//            Console.WriteLine("In Method Before Scenario Block");
-//        }
+        [AfterStep]
+        public static void AfterStep()
+        {
+            //var stepType = ScenarioStepContext.Current.StepInfo.StepDefinitionType.ToString();
 
-//        [AfterScenarioBlock]
-//        public static void AfterScenarioBlock()
-//        {
-//            Console.WriteLine("In Method After Scenario Block");
-//        }
-//    }
-//}
+            //if (ScenarioContext.Current.TestError == null)
+            //{
+            //    if (stepType == "Given")
+            //        scenarioName.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text);
+            //    else if (stepType == "When")
+            //        scenarioName.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text);
+            //    else if (stepType == "Then")
+            //        scenarioName.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text);
+            //    else if (stepType == "And")
+            //        scenarioName.CreateNode<And>(ScenarioStepContext.Current.StepInfo.Text);
+            //}
+            //else if (ScenarioContext.Current.TestError != null)
+            //{
+            //    if (stepType == "Given")
+            //        scenarioName.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
+            //    if (stepType == "When")
+            //        scenarioName.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
+            //    if (stepType == "Then")
+            //        scenarioName.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
+            //    if (stepType == "And")
+            //        scenarioName.CreateNode<And>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
+
+            //}
+            Console.WriteLine("In Method After Step");
+        }
+
+        [BeforeScenarioBlock]
+        public static void BeforeScenarioBlock()
+        {
+            Console.WriteLine("In Method Before Scenario Block");
+        }
+
+        [AfterScenarioBlock]
+        public static void AfterScenarioBlock()
+        {
+            Console.WriteLine("In Method After Scenario Block");
+        }
+    }
+}

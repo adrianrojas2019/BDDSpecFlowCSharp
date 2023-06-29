@@ -16,11 +16,11 @@ namespace SpecFlowProjectUsingBDD.Pages
         {
             driver = _driver;
         }
-        [OneTimeSetUp]
-        public void CreateDriver()
-        {
-            driver = new ChromeDriver();
-        }
+        //[SetUp]
+        //public void CreateDriver()
+        //{
+        //    driver = new ChromeDriver();
+        //}
 
         //public IWebElement SearchBox => driver.FindElement(By.CssSelector("input[title*=\"Search\"]"));
         public IWebElement SearchBox => driver.FindElement(By.Name("q"));
@@ -77,6 +77,11 @@ namespace SpecFlowProjectUsingBDD.Pages
         public bool isSearchBoxEnabled()
         {
             return SearchBox.Enabled;
+        }
+
+        public void Quit()
+        {
+            driver.Quit();
         }
     }
 }
