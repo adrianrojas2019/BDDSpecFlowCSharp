@@ -7,6 +7,7 @@ using System;
 
 namespace SpecFlowProjectUsingBDD
 {
+    [Binding]
     public abstract class SeleniumTestBase
     {
         protected IWebDriver driver;

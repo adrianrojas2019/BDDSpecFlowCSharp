@@ -12,6 +12,7 @@ namespace SpecFlowProjectUsingBDD.StepDefinitions
     public class SearchInGoogleHomePage
     {
         IWebDriver? driver;
+
         [Given(@"Google Page Open")]
         public void GivenGooglePageOpen()
         {
@@ -31,13 +32,12 @@ namespace SpecFlowProjectUsingBDD.StepDefinitions
         [When(@"User searches a Course with a keyword (.*) Tutorial")]
         public void WhenUserSearchesACourseWithAKeywordJavaTutorial(string keyWord)
         {
-            // create into new page object
-            //public IWebElement SearchBox => driver.FindElement(By.Name("q"));
             var searchBox = driver.FindElement(By.Name("q"));
             searchBox.SendKeys(keyWord);
             Thread.Sleep(100);
             searchBox.SendKeys(Keys.Escape);
             Thread.Sleep(100);
+            //googlePage.SearchFor(keyWord);
         }
 
         [When(@"Hit enters button")]
@@ -47,6 +47,7 @@ namespace SpecFlowProjectUsingBDD.StepDefinitions
             //searchBox.Click();
             //another workaround
             searchBox.SendKeys(Keys.Enter);
+            // googlePage.EnterLoginButton();
         }
 
         [Then(@"All Courses related to (.*) Tutorial should be displayed")]

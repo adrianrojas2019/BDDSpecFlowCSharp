@@ -7,7 +7,7 @@ using OpenQA.Selenium.Chrome;
 using System;
 using TechTalk.SpecFlow;
 
-namespace SpecFlowProject1.StepDefinitions
+namespace SpecFlowProjectUsingBDD.StepDefinitions
 {
     [Binding]
     public class FacebookHomePageLogin
